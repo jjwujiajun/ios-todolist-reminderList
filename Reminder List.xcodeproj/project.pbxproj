@@ -19,6 +19,13 @@
 		11E39C7F19685D160002867E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11E39C6719685D150002867E /* UIKit.framework */; };
 		11E39C8719685D160002867E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 11E39C8519685D160002867E /* InfoPlist.strings */; };
 		11E39C8919685D160002867E /* Reminder_ListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C8819685D160002867E /* Reminder_ListTests.m */; };
+		11E39C9F19685DC60002867E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 11E39C9219685DC60002867E /* Main.storyboard */; };
+		11E39CA019685DC60002867E /* PTRAddDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9419685DC60002867E /* PTRAddDateViewController.m */; };
+		11E39CA119685DC60002867E /* PTRAddReminderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9619685DC60002867E /* PTRAddReminderViewController.m */; };
+		11E39CA219685DC60002867E /* PTRControlBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9819685DC60002867E /* PTRControlBar.m */; };
+		11E39CA319685DC60002867E /* PTRReminderItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9A19685DC60002867E /* PTRReminderItem.m */; };
+		11E39CA419685DC60002867E /* PTRReminderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9C19685DC60002867E /* PTRReminderListViewController.m */; };
+		11E39CA519685DC60002867E /* PTRReminderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9E19685DC60002867E /* PTRReminderTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +55,19 @@
 		11E39C8419685D160002867E /* Reminder ListTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Reminder ListTests-Info.plist"; sourceTree = "<group>"; };
 		11E39C8619685D160002867E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		11E39C8819685D160002867E /* Reminder_ListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reminder_ListTests.m; sourceTree = "<group>"; };
+		11E39C9219685DC60002867E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		11E39C9319685DC60002867E /* PTRAddDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRAddDateViewController.h; sourceTree = "<group>"; };
+		11E39C9419685DC60002867E /* PTRAddDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRAddDateViewController.m; sourceTree = "<group>"; };
+		11E39C9519685DC60002867E /* PTRAddReminderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRAddReminderViewController.h; sourceTree = "<group>"; };
+		11E39C9619685DC60002867E /* PTRAddReminderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRAddReminderViewController.m; sourceTree = "<group>"; };
+		11E39C9719685DC60002867E /* PTRControlBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRControlBar.h; sourceTree = "<group>"; };
+		11E39C9819685DC60002867E /* PTRControlBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRControlBar.m; sourceTree = "<group>"; };
+		11E39C9919685DC60002867E /* PTRReminderItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRReminderItem.h; sourceTree = "<group>"; };
+		11E39C9A19685DC60002867E /* PTRReminderItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRReminderItem.m; sourceTree = "<group>"; };
+		11E39C9B19685DC60002867E /* PTRReminderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRReminderListViewController.h; sourceTree = "<group>"; };
+		11E39C9C19685DC60002867E /* PTRReminderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRReminderListViewController.m; sourceTree = "<group>"; };
+		11E39C9D19685DC60002867E /* PTRReminderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRReminderTableViewCell.h; sourceTree = "<group>"; };
+		11E39C9E19685DC60002867E /* PTRReminderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRReminderTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +127,19 @@
 		11E39C6919685D150002867E /* Reminder List */ = {
 			isa = PBXGroup;
 			children = (
+				11E39C9219685DC60002867E /* Main.storyboard */,
+				11E39C9319685DC60002867E /* PTRAddDateViewController.h */,
+				11E39C9419685DC60002867E /* PTRAddDateViewController.m */,
+				11E39C9519685DC60002867E /* PTRAddReminderViewController.h */,
+				11E39C9619685DC60002867E /* PTRAddReminderViewController.m */,
+				11E39C9719685DC60002867E /* PTRControlBar.h */,
+				11E39C9819685DC60002867E /* PTRControlBar.m */,
+				11E39C9919685DC60002867E /* PTRReminderItem.h */,
+				11E39C9A19685DC60002867E /* PTRReminderItem.m */,
+				11E39C9B19685DC60002867E /* PTRReminderListViewController.h */,
+				11E39C9C19685DC60002867E /* PTRReminderListViewController.m */,
+				11E39C9D19685DC60002867E /* PTRReminderTableViewCell.h */,
+				11E39C9E19685DC60002867E /* PTRReminderTableViewCell.m */,
 				11E39C7219685D150002867E /* PTRAppDelegate.h */,
 				11E39C7319685D150002867E /* PTRAppDelegate.m */,
 				11E39C7519685D160002867E /* Images.xcassets */,
@@ -220,6 +253,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E39C9F19685DC60002867E /* Main.storyboard in Resources */,
 				11E39C6E19685D150002867E /* InfoPlist.strings in Resources */,
 				11E39C7619685D160002867E /* Images.xcassets in Resources */,
 			);
@@ -240,8 +274,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E39CA019685DC60002867E /* PTRAddDateViewController.m in Sources */,
+				11E39CA119685DC60002867E /* PTRAddReminderViewController.m in Sources */,
+				11E39CA219685DC60002867E /* PTRControlBar.m in Sources */,
 				11E39C7019685D150002867E /* main.m in Sources */,
+				11E39CA519685DC60002867E /* PTRReminderTableViewCell.m in Sources */,
 				11E39C7419685D150002867E /* PTRAppDelegate.m in Sources */,
+				11E39CA319685DC60002867E /* PTRReminderItem.m in Sources */,
+				11E39CA419685DC60002867E /* PTRReminderListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
