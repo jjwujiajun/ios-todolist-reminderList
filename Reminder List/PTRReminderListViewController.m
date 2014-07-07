@@ -9,13 +9,30 @@
 #import "PTRReminderListViewController.h"
 #import "PTRReminderTableViewCell.h"
 #import "PTRReminderItem.h"
-#import "PTRAddReminderViewController.h"
+#import "PTRAddDateViewController.h"
 
 @interface PTRReminderListViewController ()
 
 @end
 
 @implementation PTRReminderListViewController
+
+#pragma mark init
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.reminderItems = [[NSMutableArray alloc] init];
+    self.selectedRow = -1;
+    
+    [self loadInitialData];
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
 
 - (void)loadInitialData
 {
@@ -32,9 +49,10 @@
     [self.reminderItems addObject:item3];
 }
 
+#pragma mark segue
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
-    PTRAddReminderViewController *source = [segue sourceViewController];
+    PTRAddDateViewController *source = [segue sourceViewController];
     PTRReminderItem *item = source.reminderItem;
     
     if (item != nil) {
@@ -44,6 +62,7 @@
     }
 }
 
+#pragma mark styling
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -53,23 +72,6 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.reminderItems = [[NSMutableArray alloc] init];
-    _selectedRow = -1;
-    
-    NSLog(@"ok at reminderlistVC init");
-    [self loadInitialData];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -77,7 +79,6 @@
 }
 
 #pragma mark - Table view data source
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -104,56 +105,45 @@
     
     cell.reminderName.text = reminderItem.itemName;
     cell.creationDate.text = [dateFormatter stringFromDate: reminderItem.creationDate];
-    cell.accessoryType  = UITableViewCellAccessoryNone;
-    
-    // make visible: control bar
-    if (reminderItem.isExtended) {
-        [cell.controlBar setHidden: NO];
-    } else {
-        [cell.controlBar setHidden: YES];
-    }
-    
-    // load checkmark
-    /*if (reminderItem.isCompleted) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }*/
+    cell.controlBar.hidden = YES;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PTRReminderItem *tappedItem = [self.reminderItems objectAtIndex:indexPath.row];
-    
-    if (_selectedRow == -1) {
-        _selectedRow = (int)[indexPath row];
-        tappedItem.isExtended = YES;
-    } else {
-        _selectedRow = -1;
-        tappedItem.isExtended = NO;
-    }
-    
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    
     [tableView beginUpdates];
+    
+    PTRReminderTableViewCell *selectedCell = (PTRReminderTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (self.selectedRow == -1) {
+        self.selectedRow = (int)[indexPath row];
+        [selectedCell showControlBar];
+    } else {
+        if (self.selectedRow == [indexPath row]) {
+            self.selectedRow = -1;
+            [selectedCell hideControlBar];
+        } else {
+            self.selectedRow = (int) [indexPath row];
+            PTRReminderTableViewCell *previousCell = (PTRReminderTableViewCell*)[tableView cellForRowAtIndexPath:self.previousPath];
+            
+            [previousCell hideControlBar];
+            [selectedCell showControlBar];
+        }
+    }
+    self.previousPath = indexPath;
+    
     [tableView endUpdates];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat height;
-    
-    
-    if ([indexPath row] == _selectedRow) {
-        height = 85;
+    if ([indexPath row] == self.selectedRow) {
+        return 85;
     }
     else {
-        height = 60;
+        return 60;
     }
-    
-    return height;
 }
 
 /*

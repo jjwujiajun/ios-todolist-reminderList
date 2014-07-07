@@ -127,21 +127,21 @@
 		11E39C6919685D150002867E /* Reminder List */ = {
 			isa = PBXGroup;
 			children = (
+				11E39C7219685D150002867E /* PTRAppDelegate.h */,
+				11E39C7319685D150002867E /* PTRAppDelegate.m */,
 				11E39C9219685DC60002867E /* Main.storyboard */,
-				11E39C9319685DC60002867E /* PTRAddDateViewController.h */,
-				11E39C9419685DC60002867E /* PTRAddDateViewController.m */,
-				11E39C9519685DC60002867E /* PTRAddReminderViewController.h */,
-				11E39C9619685DC60002867E /* PTRAddReminderViewController.m */,
-				11E39C9719685DC60002867E /* PTRControlBar.h */,
-				11E39C9819685DC60002867E /* PTRControlBar.m */,
-				11E39C9919685DC60002867E /* PTRReminderItem.h */,
-				11E39C9A19685DC60002867E /* PTRReminderItem.m */,
 				11E39C9B19685DC60002867E /* PTRReminderListViewController.h */,
 				11E39C9C19685DC60002867E /* PTRReminderListViewController.m */,
 				11E39C9D19685DC60002867E /* PTRReminderTableViewCell.h */,
 				11E39C9E19685DC60002867E /* PTRReminderTableViewCell.m */,
-				11E39C7219685D150002867E /* PTRAppDelegate.h */,
-				11E39C7319685D150002867E /* PTRAppDelegate.m */,
+				11E39C9719685DC60002867E /* PTRControlBar.h */,
+				11E39C9819685DC60002867E /* PTRControlBar.m */,
+				11E39C9519685DC60002867E /* PTRAddReminderViewController.h */,
+				11E39C9619685DC60002867E /* PTRAddReminderViewController.m */,
+				11E39C9319685DC60002867E /* PTRAddDateViewController.h */,
+				11E39C9419685DC60002867E /* PTRAddDateViewController.m */,
+				11E39C9919685DC60002867E /* PTRReminderItem.h */,
+				11E39C9A19685DC60002867E /* PTRReminderItem.m */,
 				11E39C7519685D160002867E /* Images.xcassets */,
 				11E39C6A19685D150002867E /* Supporting Files */,
 			);
@@ -478,6 +478,7 @@
 				11E39C8E19685D160002867E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		11E39C8F19685D160002867E /* Build configuration list for PBXNativeTarget "Reminder ListTests" */ = {
 			isa = XCConfigurationList;
@@ -486,6 +487,7 @@
 				11E39C9119685D160002867E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

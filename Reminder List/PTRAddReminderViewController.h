@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "PTRReminderItem.h"
+#import "PTRAddDateViewController.h"
 
 @interface PTRAddReminderViewController : UIViewController
 
 @property PTRReminderItem *reminderItem;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *nextButton;
+@property (strong, nonatomic) IBOutlet UILabel *feedback;
 
 @end

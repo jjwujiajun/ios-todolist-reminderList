@@ -11,7 +11,6 @@
 @interface PTRAddReminderViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *textField;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
 @end
 
@@ -19,15 +18,26 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if (sender != self.doneButton) return;
+    if (sender != self.nextButton) {
+        // deallocate instead?
+        self.reminderItem = nil;
+        return;
+    }
     
     if (self.textField.text.length > 0) {
         self.reminderItem = [[PTRReminderItem alloc] init];
         self.reminderItem.itemName = self.textField.text;
-        self.reminderItem.creationDate = [NSDate date];
         self.reminderItem.isCompleted = NO;
         self.reminderItem.isExtended = NO;
+    } else {
+        // Try taking this whole portion out.
+        // use - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+        self.feedback.text = @"The reminder cannot be blank";
+        return;
     }
+    
+    PTRAddDateViewController *destinationController = segue.destinationViewController;
+    destinationController.reminderItem = self.reminderItem;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -43,6 +53,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [self.textField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning

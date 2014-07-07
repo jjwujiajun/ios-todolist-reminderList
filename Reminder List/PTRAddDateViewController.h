@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PTRReminderItem.h"
 
 @interface PTRAddDateViewController : UIViewController
 
-@property NSDate *dueDate;
+@property PTRReminderItem *reminderItem;
 
 @end

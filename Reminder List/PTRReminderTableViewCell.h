@@ -15,5 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *creationDate;
 @property (strong, nonatomic) IBOutlet PTRControlBar *controlBar;
 
+-(void)showControlBar;
+-(void)hideControlBar;
 
 @end

@@ -12,6 +12,7 @@
 
 @property NSMutableArray *reminderItems;
 @property int selectedRow;
+@property NSIndexPath *previousPath;
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 

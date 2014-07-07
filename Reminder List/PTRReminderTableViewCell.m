@@ -31,4 +31,21 @@
     // Configure the view for the selected state
 }
 
+-(void)showControlBar
+{
+    /*[UIView beginAnimations:@"Fade In" context:nil];
+    [UIView setAnimationDelay:10];
+    [UIView setAnimationDuration:10];
+    */
+    
+    [self.controlBar setHidden:NO];
+    
+    //[UIView commitAnimations];
+}
+
+-(void)hideControlBar
+{
+    [self.controlBar setHidden:YES];
+}
+
 @end
