@@ -59,7 +59,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="controlBar" destination="Fra-tM-ogg" id="iRI-X1-t6t"/>
-                                    <outlet property="creationDate" destination="i5I-Xz-hGs" id="Je4-4Y-IpD"/>
+                                    <outlet property="dueDate" destination="i5I-Xz-hGs" id="hnj-yY-kxR"/>
                                     <outlet property="reminderName" destination="XrK-Qf-u5n" id="9hz-3J-rHp"/>
                                 </connections>
                             </tableViewCell>

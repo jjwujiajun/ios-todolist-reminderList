@@ -21,8 +21,14 @@
 {
     if (sender != self.doneButton) return;
     
+    if (self.selectedDate == nil) {
+        NSTimeInterval minTime = 60 * 5;
+        NSDate *defaultDate = [[NSDate date] dateByAddingTimeInterval:minTime];
+        self.selectedDate = defaultDate;
+    }
+    
     self.reminderItem.creationDate = [NSDate date];
-    //self.reminderItem.dueDate = [self.datePicker date];
+    self.reminderItem.dueDate = self.selectedDate;
     self.reminderItem.isCompleted = NO;
     self.reminderItem.isExtended = NO;
 }
@@ -33,6 +39,7 @@
     if (self) {
         // Custom initialization
         self.reminderItem = [[PTRReminderItem alloc] init];
+        self.selectedDate = nil;
     }
     return self;
 }
@@ -43,7 +50,7 @@
     // Do any additional setup after loading the view.
 
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
-    // To set initial date displayed, use [datePicker setDate:[NSDate date]];
+    datePicker.minuteInterval = 5;
     [datePicker addTarget:self
                    action:@selector(updateTextField:)
          forControlEvents:UIControlEventValueChanged];
@@ -62,6 +69,7 @@
 {
     UIDatePicker *picker = (UIDatePicker*)self.dateField.inputView;
     self.dateField.text = [NSString stringWithFormat:@"%@", picker.date];
+    self.selectedDate = picker.date;
 }
 
 /*

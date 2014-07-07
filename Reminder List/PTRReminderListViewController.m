@@ -44,6 +44,10 @@
     item2.itemName = @"Buy eggs";
     item3.itemName = @"Read a book";
     
+    item1.dueDate = [NSDate dateWithTimeIntervalSinceNow:300];
+    item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:300];
+    item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300];
+    
     [self.reminderItems addObject:item1];
     [self.reminderItems addObject:item2];
     [self.reminderItems addObject:item3];
@@ -94,9 +98,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"dd-MM-yyyy"];
-    
     static NSString *CellIdentifier = @"ListPrototypeCell";
     PTRReminderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier
                                                                      forIndexPath: indexPath];
@@ -104,7 +105,7 @@
     PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex: indexPath.row];
     
     cell.reminderName.text = reminderItem.itemName;
-    cell.creationDate.text = [dateFormatter stringFromDate: reminderItem.creationDate];
+    [cell formatDueTimeFromDate:reminderItem.dueDate];
     cell.controlBar.hidden = YES;
     
     return cell;

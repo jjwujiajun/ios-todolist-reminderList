@@ -12,10 +12,11 @@
 @interface PTRReminderTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) IBOutlet UILabel *reminderName;
-@property (strong, nonatomic) IBOutlet UILabel *creationDate;
+@property (strong, nonatomic) IBOutlet UILabel *dueDate;
 @property (strong, nonatomic) IBOutlet PTRControlBar *controlBar;
 
 -(void)showControlBar;
 -(void)hideControlBar;
+-(void)formatDueTimeFromDate:(NSDate*)dueDate;
 
 @end

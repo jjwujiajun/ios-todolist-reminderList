@@ -12,5 +12,6 @@
 @interface PTRAddDateViewController : UIViewController
 
 @property PTRReminderItem *reminderItem;
+@property NSDate *selectedDate;
 
 @end
