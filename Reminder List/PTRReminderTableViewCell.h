@@ -17,6 +17,5 @@
 
 -(void)showControlBar;
 -(void)hideControlBar;
--(void)formatDueTimeFromDate:(NSDate*)dueDate;
 
 @end
