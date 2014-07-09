@@ -34,6 +34,15 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [NSTimer scheduledTimerWithTimeInterval: 1.0
+                                     target:self
+                                   selector:@selector(updateDueTime)
+                                   userInfo:nil
+                                    repeats:YES];
+}
+
 - (void)loadInitialData
 {
     PTRReminderItem *item1 = [[PTRReminderItem alloc] init];
@@ -44,9 +53,9 @@
     item2.itemName = @"Buy eggs";
     item3.itemName = @"Read a book";
     
-    item1.dueDate = [NSDate dateWithTimeIntervalSinceNow:300];
-    item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:300];
-    item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300];
+    item1.dueDate = [NSDate dateWithTimeIntervalSinceNow: 55];
+    item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:6000];
+    item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300000];
     
     [self.reminderItems addObject:item1];
     [self.reminderItems addObject:item2];
@@ -66,7 +75,11 @@
     }
 }
 
-#pragma mark styling
+- (void) updateDueTime
+{
+    [self.tableView reloadData];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -86,7 +99,6 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
@@ -104,9 +116,9 @@
     
     PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex: indexPath.row];
     
+    cell.controlBar.hidden = self.selectedRow == indexPath.row ? NO : YES;
     cell.reminderName.text = reminderItem.itemName;
     [cell formatDueTimeFromDate:reminderItem.dueDate];
-    cell.controlBar.hidden = YES;
     
     return cell;
 }
