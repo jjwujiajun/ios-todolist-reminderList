@@ -46,6 +46,14 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (self.textField.text.length > 0) {
+        [self performSegueWithIdentifier:@"addDate" sender:self];
+    }
+    return YES;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -60,6 +68,7 @@
     [super viewDidLoad];
     self.nextButton.enabled = NO;
     self.textField.delegate = self;
+    self.textField.returnKeyType = UIReturnKeyNext;
 }
 
 - (void)viewDidAppear:(BOOL)animated

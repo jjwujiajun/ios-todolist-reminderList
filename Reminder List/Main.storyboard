@@ -115,7 +115,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Next" id="oQZ-lf-e9L">
                             <connections>
-                                <segue destination="ao6-Eo-jq7" kind="push" id="gaE-XM-bfD"/>
+                                <segue destination="ao6-Eo-jq7" kind="push" identifier="addDate" id="gaE-XM-bfD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
