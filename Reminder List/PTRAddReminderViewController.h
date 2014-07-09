@@ -10,10 +10,9 @@
 #import "PTRReminderItem.h"
 #import "PTRAddDateViewController.h"
 
-@interface PTRAddReminderViewController : UIViewController
+@interface PTRAddReminderViewController : UIViewController<UITextFieldDelegate>
 
 @property PTRReminderItem *reminderItem;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *nextButton;
-@property (strong, nonatomic) IBOutlet UILabel *feedback;
 
 @end

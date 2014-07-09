@@ -29,15 +29,21 @@
         self.reminderItem.itemName = self.textField.text;
         self.reminderItem.isCompleted = NO;
         self.reminderItem.isExtended = NO;
-    } else {
-        // Try taking this whole portion out.
-        // use - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
-        self.feedback.text = @"The reminder cannot be blank";
-        return;
     }
     
     PTRAddDateViewController *destinationController = segue.destinationViewController;
     destinationController.reminderItem = self.reminderItem;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSUInteger length = self.textField.text.length - range.length + string.length;
+    if (length > 0) {
+        self.nextButton.enabled = YES;
+    } else {
+        self.nextButton.enabled = NO;
+    }
+    return YES;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -52,7 +58,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    self.nextButton.enabled = NO;
+    self.textField.delegate = self;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
     [self.textField becomeFirstResponder];
 }
 
