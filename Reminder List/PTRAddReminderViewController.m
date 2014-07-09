@@ -48,9 +48,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (self.textField.text.length > 0) {
-        [self performSegueWithIdentifier:@"addDate" sender:self];
-    }
+    [self performSegueWithIdentifier:@"addDate" sender:self];
     return YES;
 }
 
@@ -68,6 +66,8 @@
     [super viewDidLoad];
     self.nextButton.enabled = NO;
     self.textField.delegate = self;
+    self.textField.autocapitalizationType = UITextAutocapitalizationTypeSentences;
+    self.textField.enablesReturnKeyAutomatically = YES;
     self.textField.returnKeyType = UIReturnKeyNext;
 }
 
