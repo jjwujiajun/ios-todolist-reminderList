@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PTRDateFormatter.h"
+#import "PTRReminderListViewController.h"
+#import "PTRReminderTableViewCell.h"
+#import "PTRReminderItem.h"
+#import "PTRAddDateViewController.h"
 
 @interface PTRReminderListViewController : UITableViewController
 

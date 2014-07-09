@@ -7,13 +7,6 @@
 //
 
 #import "PTRReminderListViewController.h"
-#import "PTRReminderTableViewCell.h"
-#import "PTRReminderItem.h"
-#import "PTRAddDateViewController.h"
-
-@interface PTRReminderListViewController ()
-
-@end
 
 @implementation PTRReminderListViewController
 
@@ -53,7 +46,7 @@
     item2.itemName = @"Buy eggs";
     item3.itemName = @"Read a book";
     
-    item1.dueDate = [NSDate dateWithTimeIntervalSinceNow: 55];
+    item1.dueDate = [NSDate dateWithTimeIntervalSinceNow: 5];
     item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:6000];
     item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300000];
     
@@ -118,7 +111,7 @@
     
     cell.controlBar.hidden = self.selectedRow == indexPath.row ? NO : YES;
     cell.reminderName.text = reminderItem.itemName;
-    [cell formatDueTimeFromDate:reminderItem.dueDate];
+    cell.dueDate.text = [PTRDateFormatter formatDueDateFromDate:reminderItem.dueDate];
     
     return cell;
 }
