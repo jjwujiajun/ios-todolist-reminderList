@@ -10,17 +10,17 @@
 
 @implementation PTRDateFormatter
 
-+ (NSString*)formatHours:(int)hours{
++ (NSString *)formatHours:(int)hours{
     NSString *h = hours > 1 ? @"hours" : @"hour";
     return [NSString stringWithFormat:@"%d %@ ", hours, h];
 }
 
-+ (NSString*)formatMinutes:(int)minutes{
++ (NSString *)formatMinutes:(int)minutes{
     NSString *m = minutes > 1 ? @"minutes" : @"minute";
     return [NSString stringWithFormat:@"%d %@ ", minutes, m];
 }
 
-+ (NSString*)formatDueDateFromDate:(NSDate *)dueDate
++ (NSString *)formatDueDateFromDate:(NSDate *)dueDate
 {
     NSTimeInterval periodTillDue = [dueDate timeIntervalSinceDate:[NSDate date]];
     NSMutableString *dueDateText = [[NSMutableString alloc]init];

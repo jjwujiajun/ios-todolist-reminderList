@@ -10,6 +10,6 @@
 
 @interface PTRDateFormatter : NSObject
 
-+ (NSString*)formatDueDateFromDate:(NSDate*)dueDate;
++ (NSString *)formatDueDateFromDate:(NSDate *)dueDate;
 
 @end
