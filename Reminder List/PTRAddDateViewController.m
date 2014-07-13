@@ -41,7 +41,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.reminderItem = [[PTRReminderItem alloc] init];
     self.minimumTime = 60 * 5;
     self.defaultDate = [NSDate dateWithTimeIntervalSinceNow: self.minimumTime];
     self.dateField.text = [PTRDateFormatter formatDueDateFromDate:self.defaultDate];
