@@ -43,12 +43,13 @@
     [super viewDidLoad];
     self.minimumTime = 60 * 5;
     self.defaultDate = [NSDate dateWithTimeIntervalSinceNow: self.minimumTime];
+    
     self.dateField.text = [PTRDateFormatter formatDueDateFromDate:self.defaultDate];
     self.selectedDate = self.defaultDate;
     
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
     datePicker.minuteInterval = 5;
-    [datePicker addTarget:self action:@selector(updateTextField:) forControlEvents:UIControlEventValueChanged];
+    [datePicker addTarget:self action:@selector(updateDateField:) forControlEvents:UIControlEventValueChanged];
     [self.dateField setInputView:datePicker];
     
     [self.dateField becomeFirstResponder];
@@ -60,7 +61,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)updateTextField:(id)sender
+-(void)updateDateField:(id)sender
 {
     UIDatePicker *picker = (UIDatePicker*)self.dateField.inputView;
     self.dateField.text = [PTRDateFormatter formatDueDateFromDate:picker.date];
