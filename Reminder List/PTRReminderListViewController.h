@@ -19,6 +19,8 @@
 @property NSMutableArray *reminderItems;
 @property int selectedRow;
 @property NSIndexPath *previousPath;
+@property PTREditViewController *editController;
+@property NSDate *originalDate;
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 - (IBAction)deleteButtonSelected:(id)sender;

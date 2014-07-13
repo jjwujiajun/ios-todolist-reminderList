@@ -60,6 +60,10 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    if (self.originalDate != self.editController.reminderItem.dueDate) {
+        [self sortReminders];
+    }
+    
     [NSTimer scheduledTimerWithTimeInterval: 1.0
                                      target:self
                                    selector:@selector(updateDueTime)
@@ -90,9 +94,11 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqual: @"editSegue"] ) {
-        PTREditViewController *editController = segue.destinationViewController;
         PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex:self.selectedRow];
-        editController.reminderItem = reminderItem;
+        self.editController = segue.destinationViewController;
+        self.editController.reminderItem = reminderItem;
+        
+        self.originalDate = [NSDate dateWithTimeInterval:0 sinceDate:self.editController.reminderItem.dueDate];
     }
     
 }
@@ -124,7 +130,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

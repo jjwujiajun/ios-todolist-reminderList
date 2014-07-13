@@ -22,11 +22,35 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // if using UITextView, then have to set this, else words will go hidden beyond border
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    // This is repeated from AddDateVC. Consider creating PTRDateField class
+    UIDatePicker *datePicker = [[UIDatePicker alloc]init];
+    datePicker.minuteInterval = 5;
+    [datePicker setDate:self.reminderItem.dueDate];
+    [datePicker addTarget:self action:@selector(updateDateField:)
+         forControlEvents:UIControlEventValueChanged];
+    [self.dateField setInputView:datePicker];
+    
     self.textField.text = self.reminderItem.itemName;
     self.dateField.text = [PTRDateFormatter formatDueDateFromDate: self.reminderItem.dueDate];
+}
+
+- (void)updateDateField:(id)sender
+{
+    UIDatePicker *picker = (UIDatePicker*)self.dateField.inputView;
+    self.dateField.text = [PTRDateFormatter formatDueDateFromDate:picker.date];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.reminderItem.itemName = self.textField.text;
+    UIDatePicker *picker = (UIDatePicker*)self.dateField.inputView;
+    self.reminderItem.dueDate = picker.date;
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,15 +59,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
-*/
 
 @end
