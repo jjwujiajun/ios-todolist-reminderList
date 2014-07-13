@@ -22,9 +22,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // if using UITextView, then have to set this, else words will go hidden beyond border
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     self.textField.text = self.reminderItem.itemName;
     self.dateField.text = [PTRDateFormatter formatDueDateFromDate: self.reminderItem.dueDate];
-    
 }
 
 - (void)didReceiveMemoryWarning

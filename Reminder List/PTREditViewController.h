@@ -12,8 +12,8 @@
 
 @interface PTREditViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UITextView *textField;
-@property (strong, nonatomic) IBOutlet UITextView *dateField;
+@property (strong, nonatomic) IBOutlet UITextField *textField;
+@property (strong, nonatomic) IBOutlet UITextField *dateField;
 @property PTRReminderItem *reminderItem;
 
 @end

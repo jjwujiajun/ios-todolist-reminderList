@@ -10,6 +10,17 @@
 
 @implementation PTRReminderListViewController
 
+#pragma mark reminder model stuff
+- (void) sortReminders
+{
+    [self.reminderItems sortUsingComparator:^NSComparisonResult(PTRReminderItem *obj1, PTRReminderItem *obj2) {
+        NSDate *date1 = obj1.dueDate;
+        NSDate *date2 = obj2.dueDate;
+        return [date1 compare:date2];
+    }];
+}
+
+
 #pragma mark init
 - (void)viewDidLoad
 {
@@ -58,14 +69,11 @@
 #pragma mark segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    //if (sender == self.remieditButton) {
+    if ([segue.identifier isEqual: @"editSegue"] ) {
         PTREditViewController *editController = segue.destinationViewController;
-        if (self.selectedRow == -1) {
-            self.selectedRow = 1;
-        }
         PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex:self.selectedRow];
         editController.reminderItem = reminderItem;
-    //}
+    }
     
 }
 
@@ -76,7 +84,7 @@
     
     if (item != nil) {
         [self.reminderItems addObject:item];
-        // add a sorting function for reminder here later
+        [self sortReminders];
         [self.tableView reloadData];
     }
 }
