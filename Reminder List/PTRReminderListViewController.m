@@ -56,6 +56,19 @@
 }
 
 #pragma mark segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    //if (sender == self.remieditButton) {
+        PTREditViewController *editController = segue.destinationViewController;
+        if (self.selectedRow == -1) {
+            self.selectedRow = 1;
+        }
+        PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex:self.selectedRow];
+        editController.reminderItem = reminderItem;
+    //}
+    
+}
+
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
     PTRAddDateViewController *source = [segue sourceViewController];
@@ -110,6 +123,8 @@
     PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex: indexPath.row];
     
     cell.controlBar.hidden = self.selectedRow == indexPath.row ? NO : YES;
+    cell.controlBar.delegateController = self;
+    
     cell.reminderName.text = reminderItem.itemName;
     cell.dueDate.text = [PTRDateFormatter formatDueDateFromDate:reminderItem.dueDate];
     
@@ -145,7 +160,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([indexPath row] == self.selectedRow) {
-        return 85;
+        return 100;
     }
     else {
         return 60;

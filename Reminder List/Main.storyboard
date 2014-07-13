@@ -24,16 +24,16 @@
         <scene sceneID="8lR-Mc-aVZ">
             <objects>
                 <tableViewController id="v2f-TD-VBh" customClass="PTRReminderListViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="86" sectionHeaderHeight="22" sectionFooterHeight="22" id="lFy-Ow-zE8">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="22" sectionFooterHeight="22" id="lFy-Ow-zE8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListPrototypeCell" rowHeight="86" id="k6Y-Rq-6g7" customClass="PTRReminderTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="86"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ListPrototypeCell" rowHeight="100" id="k6Y-Rq-6g7" customClass="PTRReminderTableViewCell">
+                                <rect key="frame" x="0.0" y="86" width="320" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k6Y-Rq-6g7" id="sN1-Zu-3vc">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="85"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" fixedFrame="YES" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i5I-Xz-hGs">
@@ -51,9 +51,23 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fra-tM-ogg" customClass="PTRControlBar">
-                                            <rect key="frame" x="0.0" y="60" width="320" height="25"/>
+                                            <rect key="frame" x="0.0" y="60" width="320" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fU1-ay-FFw">
+                                                    <rect key="frame" x="197" y="4" width="46" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Button">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="editButtonSelected:" destination="Fra-tM-ogg" eventType="touchUpInside" id="Eih-QI-9aR"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <connections>
+                                                <outlet property="editButton" destination="fU1-ay-FFw" id="FeW-Bs-dXL"/>
+                                            </connections>
                                         </view>
                                     </subviews>
                                 </tableViewCellContentView>
@@ -69,6 +83,7 @@
                             <outlet property="delegate" destination="v2f-TD-VBh" id="HGN-8f-bEy"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="List" id="vgo-yc-Hzx">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dLa-Ax-WPN">
                             <connections>
@@ -76,10 +91,53 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <segue destination="t0t-Lx-gSJ" kind="push" identifier="editSegue" id="EVc-XA-ieU"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rZB-06-BVL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="258" y="-45"/>
+        </scene>
+        <!--Edit View Controller-->
+        <scene sceneID="6d3-xd-7Do">
+            <objects>
+                <viewController id="t0t-Lx-gSJ" customClass="PTREditViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aZh-CX-DIY"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wo3-Gp-OTV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TmF-iN-XLc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Reminder text" translatesAutoresizingMaskIntoConstraints="NO" id="TIh-Dq-GW2">
+                                <rect key="frame" x="0.0" y="92" width="320" height="35"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Reminder date" translatesAutoresizingMaskIntoConstraints="NO" id="yIP-k3-SRp">
+                                <rect key="frame" x="0.0" y="151" width="320" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="d6h-mh-iaT"/>
+                    <connections>
+                        <outlet property="dateField" destination="yIP-k3-SRp" id="uXs-48-QMO"/>
+                        <outlet property="textField" destination="TIh-Dq-GW2" id="DZH-82-Dqv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J4U-Om-XbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="792" y="-45"/>
         </scene>
         <!--Add Reminder View Controller - Add Reminder-->
         <scene sceneID="HkZ-8J-LPn">

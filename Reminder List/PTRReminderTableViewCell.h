@@ -11,7 +11,7 @@
 
 @interface PTRReminderTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UILabel *reminderName;
+@property (strong, nonatomic)IBOutlet UILabel *reminderName;
 @property (strong, nonatomic) IBOutlet UILabel *dueDate;
 @property (strong, nonatomic) IBOutlet PTRControlBar *controlBar;
 

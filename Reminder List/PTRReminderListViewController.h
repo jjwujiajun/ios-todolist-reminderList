@@ -12,6 +12,7 @@
 #import "PTRReminderTableViewCell.h"
 #import "PTRReminderItem.h"
 #import "PTRAddDateViewController.h"
+#import "PTREditViewController.h"
 
 @interface PTRReminderListViewController : UITableViewController
 
