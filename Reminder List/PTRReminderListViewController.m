@@ -10,33 +10,6 @@
 
 @implementation PTRReminderListViewController
 
-#pragma mark reminder model stuff
-
-- (IBAction)deleteButtonSelected:(id)sender
-{
-    if ([self.list removeReminderAtIndexPath:self.selectedPath]) {
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedPath]
-                              withRowAnimation:UITableViewRowAnimationTop];
-    }
-    self.selectedPath = nil;
-}
-
-- (IBAction)doneButtonSelected:(id)sender
-{
-    UIButton *doneBtn = (UIButton *)sender;
-    NSIndexPath *path = [NSIndexPath indexPathForRow:doneBtn.tag inSection:0];
-    
-    if ([self.list archiveReminderAtIndexPath:path]) {
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                              withRowAnimation:UITableViewRowAnimationRight];
-    }
-}
-
-- (IBAction)editButtonSelected:(id)sender
-{
-    [self performSegueWithIdentifier:@"editSegue" sender:sender];
-}
-
 #pragma mark init
 - (void)viewDidLoad
 {
@@ -80,6 +53,9 @@
     item1.dueDate = [NSDate dateWithTimeIntervalSinceNow: 5];
     item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:6000];
     item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300000];
+    
+    item1.recurrencePeriod = PeriodDay;
+    item1.recurrenceAmount = 1;
     
     [self.list.reminderItems addObject:item1];
     [self.list.reminderItems addObject:item2];
@@ -197,6 +173,40 @@
     else {
         return 60;
     }
+}
+
+#pragma mark reminder model stuff
+
+- (IBAction)deleteButtonSelected:(id)sender
+{
+    if ([self.list removeReminderAtIndexPath:self.selectedPath]) {
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedPath]
+                              withRowAnimation:UITableViewRowAnimationTop];
+    }
+    self.selectedPath = nil;
+}
+
+- (IBAction)doneButtonSelected:(id)sender
+{
+    UIView *view = sender;
+    while (view != nil && ![view isKindOfClass:[PTRReminderTableViewCell class]]) {
+        view = [view superview];
+    }
+    PTRReminderTableViewCell *cell = (PTRReminderTableViewCell *)view;
+    NSIndexPath *path = [self.tableView indexPathForCell:cell];
+    
+    if ([self.list didArchiveReminderAtIndexPath:path]) {
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                              withRowAnimation:UITableViewRowAnimationRight];
+    } else {
+        // perform animations for shifting reminder below
+        [self.tableView reloadData];
+    }
+}
+
+- (IBAction)editButtonSelected:(id)sender
+{
+    [self performSegueWithIdentifier:@"editSegue" sender:sender];
 }
 
 

@@ -20,6 +20,7 @@
 
 - (void)sortReminders
 {
+    // Note to self: please do binary search insert "sort" next time. Find a way.
     [self.reminderItems sortUsingComparator:^NSComparisonResult(PTRReminderItem *obj1, PTRReminderItem *obj2) {
         NSDate *date1 = obj1.dueDate;
         NSDate *date2 = obj2.dueDate;
@@ -49,14 +50,19 @@
     }
 }
 
-- (BOOL)archiveReminderAtIndexPath:(NSIndexPath *)path
+- (BOOL)didArchiveReminderAtIndexPath:(NSIndexPath *)path
 {
     PTRReminderItem *item = [self.reminderItems objectAtIndex:path.row];
-    if ([self removeReminderAtIndexPath:path]) {
-        // *** may be the reason why archive cannot get reminderItem. Pointer pointed reminder is deleted!*** check!
-        [self.archivedItems addObject:item];
-        return YES;
+    
+    if (item.recurrencePeriod == PeriodNone) {
+        if ([self removeReminderAtIndexPath:path]) {
+            [self.archivedItems addObject:item];
+            return YES;
+        }
     }
+
+    [item findNextDueDate];
+    [self sortReminders];
     return NO;
 }
 

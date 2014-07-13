@@ -17,6 +17,6 @@
 - (void)sortReminders;
 - (BOOL)addReminder:(PTRReminderItem *)item;
 - (BOOL)removeReminderAtIndexPath:(NSIndexPath *)path;
-- (BOOL)archiveReminderAtIndexPath:(NSIndexPath *)path;
+- (BOOL)didArchiveReminderAtIndexPath:(NSIndexPath *)path;
 
 @end

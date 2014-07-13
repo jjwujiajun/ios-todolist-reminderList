@@ -10,10 +10,23 @@
 
 @interface PTRReminderItem : NSObject
 
+typedef enum {
+    PeriodNone,
+    PeriodDay,
+    PeriodWeek,
+    PeriodMonth,
+    PeriodYear,
+} RecurrencePeriod;
+
 @property NSString *itemName;
 @property NSDate *creationDate;
 @property NSDate *dueDate;
 @property BOOL isCompleted;
 @property BOOL isExtended;
+@property RecurrencePeriod recurrencePeriod;
+@property int recurrenceAmount;
+
+- (void)findNextDueDate;
+- (void)postponeDueDateByTimeInterval:(NSTimeInterval)time;
 
 @end
