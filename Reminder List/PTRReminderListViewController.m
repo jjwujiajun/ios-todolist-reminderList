@@ -11,21 +11,13 @@
 @implementation PTRReminderListViewController
 
 #pragma mark reminder model stuff
-- (void)sortReminders
-{
-    [self.reminderItems sortUsingComparator:^NSComparisonResult(PTRReminderItem *obj1, PTRReminderItem *obj2) {
-        NSDate *date1 = obj1.dueDate;
-        NSDate *date2 = obj2.dueDate;
-        return [date1 compare:date2];
-    }];
-}
 
 - (IBAction)deleteButtonSelected:(id)sender
 {
-    [self.reminderItems removeObjectAtIndex:self.selectedPath.row];
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedPath]
-                          withRowAnimation:UITableViewRowAnimationTop];
-    
+    if ([self.list removeReminderAtIndexPath:self.selectedPath]) {
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedPath]
+                              withRowAnimation:UITableViewRowAnimationTop];
+    }
     self.selectedPath = nil;
 }
 
@@ -34,19 +26,9 @@
     UIButton *doneBtn = (UIButton *)sender;
     NSIndexPath *path = [NSIndexPath indexPathForRow:doneBtn.tag inSection:0];
     
-    [self.archivedItems addObject:[self.reminderItems objectAtIndex:path.row]];
-    [self.reminderItems removeObjectAtIndex:path.row];
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                          withRowAnimation:UITableViewRowAnimationRight];
-}
-
-- (void)addReminder:(PTRReminderItem *)item
-{
-    if (item != nil) {
-        // try [tableView insertRowsAtIndexPath:withAnimation:] next time
-        [self.reminderItems addObject:item];
-        [self sortReminders];
-        [self.tableView reloadData];
+    if ([self.list archiveReminderAtIndexPath:path]) {
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                              withRowAnimation:UITableViewRowAnimationRight];
     }
 }
 
@@ -60,7 +42,7 @@
 {
     [super viewDidLoad];
     
-    self.reminderItems = [[NSMutableArray alloc] init];
+    self.list = [[PTRReminderItemList alloc] init];
     self.selectedPath = nil;
     
     [self loadInitialData];
@@ -75,10 +57,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     if (self.originalDate != self.editController.reminderItem.dueDate) {
-        [self sortReminders];
+        [self.list sortReminders];
     }
     
-    [NSTimer scheduledTimerWithTimeInterval: 1.0
+    [NSTimer scheduledTimerWithTimeInterval: 5
                                      target:self
                                    selector:@selector(updateDueTime)
                                    userInfo:nil
@@ -99,16 +81,16 @@
     item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:6000];
     item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300000];
     
-    [self.reminderItems addObject:item1];
-    [self.reminderItems addObject:item2];
-    [self.reminderItems addObject:item3];
+    [self.list.reminderItems addObject:item1];
+    [self.list.reminderItems addObject:item2];
+    [self.list.reminderItems addObject:item3];
 }
 
 #pragma mark segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqual: @"editSegue"] ) {
-        PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex:self.selectedPath.row];
+        PTRReminderItem *reminderItem = [self.list.reminderItems objectAtIndex:self.selectedPath.row];
         self.editController = segue.destinationViewController;
         self.editController.reminderItem = reminderItem;
         
@@ -121,7 +103,10 @@
 {
     PTRAddDateViewController *source = [segue sourceViewController];
     PTRReminderItem *item = source.reminderItem;
-    [self addReminder:item];
+    if ([self.list addReminder:item]) {
+        // try [tableView insertRowsAtIndexPath:withAnimation:] next time
+        [self.tableView reloadData];
+    }
 }
 
 - (void) updateDueTime
@@ -146,13 +131,24 @@
 
 #pragma mark - Table view delegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return [self.list.reminderItems count];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"ListPrototypeCell";
     PTRReminderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier: CellIdentifier
                                                                      forIndexPath: indexPath];
     
-    PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex: indexPath.row];
+    PTRReminderItem *reminderItem = [self.list.reminderItems objectAtIndex: indexPath.row];
     
     cell.reminderName.text = reminderItem.itemName;
     cell.dueDate.text = [PTRDateFormatter formatDueDateFromDate:reminderItem.dueDate];
@@ -201,17 +197,6 @@
     else {
         return 60;
     }
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return [self.reminderItems count];
 }
 
 
