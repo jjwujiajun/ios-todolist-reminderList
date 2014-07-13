@@ -17,7 +17,8 @@
 @interface PTRReminderListViewController : UITableViewController
 
 @property NSMutableArray *reminderItems;
-@property int selectedRow;
+@property NSMutableArray *archivedItems;
+@property NSIndexPath *selectedPath;
 @property NSIndexPath *previousPath;
 @property PTREditViewController *editController;
 @property NSDate *originalDate;
@@ -25,5 +26,6 @@
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
 - (IBAction)deleteButtonSelected:(id)sender;
 - (IBAction)editButtonSelected:(id)sender;
+- (IBAction)doneButtonSelected:(id)sender;
 
 @end

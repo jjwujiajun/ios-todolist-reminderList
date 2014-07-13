@@ -22,14 +22,18 @@
 
 - (IBAction)deleteButtonSelected:(id)sender
 {
-    [self.reminderItems removeObjectAtIndex:self.selectedRow];
-    self.selectedRow = -1;
-    [self.tableView reloadData];
+    [self.reminderItems removeObjectAtIndex:self.selectedPath.row];
+    self.selectedPath = nil;
+    //[self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:<#(id)#>] withRowAnimation:<#(UITableViewRowAnimation)#>];
 }
 
 - (IBAction)editButtonSelected:(id)sender
 {
     [self performSegueWithIdentifier:@"editSegue" sender:sender];
+}
+
+- (IBAction)doneButtonSelected:(id)sender
+{
 }
 
 - (void)addReminder:(PTRReminderItem *)item
@@ -47,7 +51,7 @@
     [super viewDidLoad];
     
     self.reminderItems = [[NSMutableArray alloc] init];
-    self.selectedRow = -1;
+    self.selectedPath = nil;
     
     [self loadInitialData];
     
@@ -94,7 +98,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqual: @"editSegue"] ) {
-        PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex:self.selectedRow];
+        PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex:self.selectedPath.row];
         self.editController = segue.destinationViewController;
         self.editController.reminderItem = reminderItem;
         
@@ -151,7 +155,11 @@
     
     PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex: indexPath.row];
     
-    cell.controlBar.hidden = self.selectedRow == indexPath.row ? NO : YES;
+    if (self.selectedPath == nil) {
+        cell.controlBar.hidden = YES;
+    } else {
+        cell.controlBar.hidden = self.selectedPath.row == indexPath.row ? NO : YES;
+    }
     cell.reminderName.text = reminderItem.itemName;
     cell.dueDate.text = [PTRDateFormatter formatDueDateFromDate:reminderItem.dueDate];
     
@@ -164,15 +172,15 @@
     
     PTRReminderTableViewCell *selectedCell = (PTRReminderTableViewCell*) [tableView cellForRowAtIndexPath:indexPath];
     
-    if (self.selectedRow == -1) {
-        self.selectedRow = (int)[indexPath row];
+    if (self.selectedPath == nil) {
+        self.selectedPath = indexPath;
         [selectedCell showControlBar];
     } else {
-        if (self.selectedRow == [indexPath row]) {
-            self.selectedRow = -1;
+        if (self.selectedPath == indexPath) {
+            self.selectedPath = nil;
             [selectedCell hideControlBar];
         } else {
-            self.selectedRow = (int) [indexPath row];
+            self.selectedPath = indexPath;
             PTRReminderTableViewCell *previousCell = (PTRReminderTableViewCell*)[tableView cellForRowAtIndexPath:self.previousPath];
             
             [previousCell hideControlBar];
@@ -186,7 +194,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([indexPath row] == self.selectedRow) {
+    if (self.selectedPath != nil && indexPath.row == self.selectedPath.row) {
         return 100;
     }
     else {
