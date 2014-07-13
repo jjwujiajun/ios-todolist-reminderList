@@ -19,11 +19,6 @@
     return self;
 }
 
--(IBAction)editButtonSelected:(id)sender
-{
-    [self.delegateController performSegueWithIdentifier:@"editSegue" sender:self.editButton];
-}
-
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -20,6 +20,26 @@
     }];
 }
 
+- (IBAction)deleteButtonSelected:(id)sender
+{
+    [self.reminderItems removeObjectAtIndex:self.selectedRow];
+    self.selectedRow = -1;
+    [self.tableView reloadData];
+}
+
+- (IBAction)editButtonSelected:(id)sender
+{
+    [self performSegueWithIdentifier:@"editSegue" sender:sender];
+}
+
+- (void)addReminder:(PTRReminderItem *)item
+{
+    if (item != nil) {
+        [self.reminderItems addObject:item];
+        [self sortReminders];
+        [self.tableView reloadData];
+    }
+}
 
 #pragma mark init
 - (void)viewDidLoad
@@ -81,12 +101,7 @@
 {
     PTRAddDateViewController *source = [segue sourceViewController];
     PTRReminderItem *item = source.reminderItem;
-    
-    if (item != nil) {
-        [self.reminderItems addObject:item];
-        [self sortReminders];
-        [self.tableView reloadData];
-    }
+    [self addReminder:item];
 }
 
 - (void) updateDueTime
@@ -131,8 +146,6 @@
     PTRReminderItem *reminderItem = [self.reminderItems objectAtIndex: indexPath.row];
     
     cell.controlBar.hidden = self.selectedRow == indexPath.row ? NO : YES;
-    cell.controlBar.delegateController = self;
-    
     cell.reminderName.text = reminderItem.itemName;
     cell.dueDate.text = [PTRDateFormatter formatDueDateFromDate:reminderItem.dueDate];
     

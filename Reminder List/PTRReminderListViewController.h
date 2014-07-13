@@ -21,5 +21,7 @@
 @property NSIndexPath *previousPath;
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
+- (IBAction)deleteButtonSelected:(id)sender;
+- (IBAction)editButtonSelected:(id)sender;
 
 @end
