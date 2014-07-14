@@ -21,12 +21,13 @@ typedef enum {
 @property NSString *itemName;
 @property NSDate *creationDate;
 @property NSDate *dueDate;
+@property NSDate *recurrenceDueDate;
 @property BOOL isCompleted;
 @property BOOL isExtended;
 @property RecurrencePeriod recurrencePeriod;
 @property int recurrenceAmount;
 
-- (void)findNextDueDate;
+- (void)findNextRecurrentDueDate;
 - (void)postponeDueDateByTimeInterval:(NSTimeInterval)time;
 
 @end
