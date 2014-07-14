@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		115B1E61196D511400B6E33C /* PTRDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 115B1E60196D511400B6E33C /* PTRDateFormatter.m */; };
+		11A5E730196D86CE002EA957 /* PTREditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A5E72F196D86CE002EA957 /* PTREditViewController.m */; };
 		11E39C6419685D150002867E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11E39C6319685D150002867E /* Foundation.framework */; };
 		11E39C6619685D150002867E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11E39C6519685D150002867E /* CoreGraphics.framework */; };
 		11E39C6819685D150002867E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11E39C6719685D150002867E /* UIKit.framework */; };
@@ -26,6 +28,7 @@
 		11E39CA319685DC60002867E /* PTRReminderItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9A19685DC60002867E /* PTRReminderItem.m */; };
 		11E39CA419685DC60002867E /* PTRReminderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9C19685DC60002867E /* PTRReminderListViewController.m */; };
 		11E39CA519685DC60002867E /* PTRReminderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E39C9E19685DC60002867E /* PTRReminderTableViewCell.m */; };
+		11FD208B1972C76200C3B033 /* PTRReminderItemList.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FD208A1972C76200C3B033 /* PTRReminderItemList.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +42,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		115B1E5F196D511400B6E33C /* PTRDateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRDateFormatter.h; sourceTree = "<group>"; };
+		115B1E60196D511400B6E33C /* PTRDateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRDateFormatter.m; sourceTree = "<group>"; };
+		11A5E72E196D86CE002EA957 /* PTREditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTREditViewController.h; sourceTree = "<group>"; };
+		11A5E72F196D86CE002EA957 /* PTREditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTREditViewController.m; sourceTree = "<group>"; };
 		11E39C6019685D150002867E /* Reminder List.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reminder List.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		11E39C6319685D150002867E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		11E39C6519685D150002867E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -68,6 +75,8 @@
 		11E39C9C19685DC60002867E /* PTRReminderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRReminderListViewController.m; sourceTree = "<group>"; };
 		11E39C9D19685DC60002867E /* PTRReminderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRReminderTableViewCell.h; sourceTree = "<group>"; };
 		11E39C9E19685DC60002867E /* PTRReminderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRReminderTableViewCell.m; sourceTree = "<group>"; };
+		11FD20891972C76200C3B033 /* PTRReminderItemList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTRReminderItemList.h; sourceTree = "<group>"; };
+		11FD208A1972C76200C3B033 /* PTRReminderItemList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTRReminderItemList.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,12 +145,18 @@
 				11E39C9E19685DC60002867E /* PTRReminderTableViewCell.m */,
 				11E39C9719685DC60002867E /* PTRControlBar.h */,
 				11E39C9819685DC60002867E /* PTRControlBar.m */,
+				11A5E72E196D86CE002EA957 /* PTREditViewController.h */,
+				11A5E72F196D86CE002EA957 /* PTREditViewController.m */,
 				11E39C9519685DC60002867E /* PTRAddReminderViewController.h */,
 				11E39C9619685DC60002867E /* PTRAddReminderViewController.m */,
 				11E39C9319685DC60002867E /* PTRAddDateViewController.h */,
 				11E39C9419685DC60002867E /* PTRAddDateViewController.m */,
+				11FD20891972C76200C3B033 /* PTRReminderItemList.h */,
+				11FD208A1972C76200C3B033 /* PTRReminderItemList.m */,
 				11E39C9919685DC60002867E /* PTRReminderItem.h */,
 				11E39C9A19685DC60002867E /* PTRReminderItem.m */,
+				115B1E5F196D511400B6E33C /* PTRDateFormatter.h */,
+				115B1E60196D511400B6E33C /* PTRDateFormatter.m */,
 				11E39C7519685D160002867E /* Images.xcassets */,
 				11E39C6A19685D150002867E /* Supporting Files */,
 			);
@@ -275,11 +290,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				11E39CA019685DC60002867E /* PTRAddDateViewController.m in Sources */,
+				115B1E61196D511400B6E33C /* PTRDateFormatter.m in Sources */,
 				11E39CA119685DC60002867E /* PTRAddReminderViewController.m in Sources */,
 				11E39CA219685DC60002867E /* PTRControlBar.m in Sources */,
 				11E39C7019685D150002867E /* main.m in Sources */,
+				11A5E730196D86CE002EA957 /* PTREditViewController.m in Sources */,
 				11E39CA519685DC60002867E /* PTRReminderTableViewCell.m in Sources */,
 				11E39C7419685D150002867E /* PTRAppDelegate.m in Sources */,
+				11FD208B1972C76200C3B033 /* PTRReminderItemList.m in Sources */,
 				11E39CA319685DC60002867E /* PTRReminderItem.m in Sources */,
 				11E39CA419685DC60002867E /* PTRReminderListViewController.m in Sources */,
 			);
