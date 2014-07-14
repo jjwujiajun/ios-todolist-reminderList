@@ -61,7 +61,7 @@
         }
     }
 
-    [item findNextDueDate];
+    [item findNextRecurrentDueDate];
     [self sortReminders];
     return NO;
 }

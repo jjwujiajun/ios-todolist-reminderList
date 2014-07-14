@@ -10,53 +10,79 @@
 
 @implementation PTRReminderItem
 
+- (BOOL)stillOverdue
+{
+    // NSDate > self.recurrentDueDate
+    BOOL i = [[NSDate date] compare:self.recurrenceDueDate] == NSOrderedDescending;
+    NSLog(@"Date: %d", i);
+    return i;
+}
+
 - (void)findNextRecurrentDueDate
 {
-    // check time already due before implemented shifting recurrence?
     switch (self.recurrencePeriod) {
         case PeriodDay: {
             NSTimeInterval time = 60 * 60 * 24 * self.recurrenceAmount;
-            self.dueDate = [NSDate dateWithTimeInterval:time sinceDate:self.recurrenceDueDate];
-            self.recurrenceDueDate = self.dueDate;
+            // May tap done before dueDate, so must do at least once
+            self.recurrenceDueDate = [NSDate dateWithTimeInterval:time sinceDate:self.recurrenceDueDate];
+            
+            while ([self stillOverdue]) {
+                self.recurrenceDueDate = [NSDate dateWithTimeInterval:time sinceDate:self.recurrenceDueDate];
+            }
         }
             break;
         case PeriodWeek: {
             NSTimeInterval time = 60 * 60 * 24 * 7 * self.recurrenceAmount;
-            self.dueDate = [NSDate dateWithTimeInterval:time sinceDate:self.recurrenceDueDate];
-            self.recurrenceDueDate = self.dueDate;
+            self.recurrenceDueDate = [NSDate dateWithTimeInterval:time sinceDate:self.recurrenceDueDate];
+            
+            while ([self stillOverdue]) {
+                self.recurrenceDueDate = [NSDate dateWithTimeInterval:time sinceDate:self.recurrenceDueDate];
+            }
         }
             break;
         case PeriodMonth: {
             NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
             NSCalendar *calendar = [NSCalendar currentCalendar];
             [dateComponents setMonth:self.recurrenceAmount];
-            self.dueDate = [calendar dateByAddingComponents:dateComponents toDate:self.recurrenceDueDate options:0];
-            self.recurrenceDueDate = self.dueDate;
+            
+            self.recurrenceDueDate = [calendar dateByAddingComponents:dateComponents toDate:self.recurrenceDueDate options:0];
+            
+            while ([self stillOverdue]) {
+                self.recurrenceDueDate = [calendar dateByAddingComponents:dateComponents toDate:self.recurrenceDueDate options:0];
+            }
         }
             break;
         case PeriodYear: {
             NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
             NSCalendar *calendar = [NSCalendar currentCalendar];
             [dateComponents setYear:self.recurrenceAmount];
-            self.dueDate = [calendar dateByAddingComponents:dateComponents toDate:self.recurrenceDueDate options:0];
-            self.recurrenceDueDate = self.dueDate;
+            
+            self.recurrenceDueDate = [calendar dateByAddingComponents:dateComponents toDate:self.recurrenceDueDate options:0];
+            
+            while ([self stillOverdue]) {
+                self.recurrenceDueDate = [calendar dateByAddingComponents:dateComponents toDate:self.recurrenceDueDate options:0];
+            }
         }
             break;
+            
         default:
             break;
     }
+    self.dueDate = self.recurrenceDueDate;
     //[self postponeDueDateByTimeInterval:time];
     //need remove recurrence?
 }
 
 - (void)postponeDueDateByTimeInterval:(NSTimeInterval)time
 {
-    // Save recurrence time before postponing current dueDate
-    if (self.recurrencePeriod != PeriodNone && self.recurrenceDueDate == nil) {
+    // check time already due before implemented shifting recurrence?
+    
+    // Save recurrence time before postponing current dueDate for the First Time
+    if (self.recurrenceDueDate == nil && self.recurrencePeriod != PeriodNone) {
         self.recurrenceDueDate = self.dueDate;
     }
     
-    // If overdue,
+    // If overdue, (NSDate > self.dueDate)
     if ([[NSDate date] compare:self.dueDate] == NSOrderedDescending) {
         self.dueDate = [NSDate dateWithTimeInterval:time sinceDate:[NSDate date]];
     } else {

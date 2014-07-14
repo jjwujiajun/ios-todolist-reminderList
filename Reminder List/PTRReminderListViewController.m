@@ -50,12 +50,13 @@
     item2.itemName = @"Buy eggs";
     item3.itemName = @"Read a book";
     
-    item1.dueDate = [NSDate dateWithTimeIntervalSinceNow: 5];
+    item1.dueDate = [NSDate dateWithTimeIntervalSinceNow: -500000];
     item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:6000];
     item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300000];
     
     item1.recurrencePeriod = PeriodDay;
     item1.recurrenceAmount = 1;
+    item1.recurrenceDueDate = item1.dueDate;
     
     [self.list.reminderItems addObject:item1];
     [self.list.reminderItems addObject:item2];

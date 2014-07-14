@@ -27,6 +27,9 @@
     if (self.textField.text.length > 0) {
         self.reminderItem = [[PTRReminderItem alloc] init];
         self.reminderItem.itemName = self.textField.text;
+        self.reminderItem.recurrencePeriod = PeriodNone;
+        self.reminderItem.recurrenceAmount = 0;
+        self.reminderItem.recurrenceDueDate = nil;
         self.reminderItem.isCompleted = NO;
         self.reminderItem.isExtended = NO;
     }
