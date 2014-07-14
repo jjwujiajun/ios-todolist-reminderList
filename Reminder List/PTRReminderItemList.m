@@ -20,6 +20,7 @@
 
 - (void)sortReminders
 {
+    
     // Note to self: please do binary search insert "sort" next time. Find a way.
     [self.reminderItems sortUsingComparator:^NSComparisonResult(PTRReminderItem *obj1, PTRReminderItem *obj2) {
         NSDate *date1 = obj1.dueDate;
@@ -28,42 +29,40 @@
     }];
 }
 
-- (BOOL)addReminder:(PTRReminderItem *)item
+- (BOOL)addReminder:(PTRReminderItem *)item atRow:(int)row
 {
     if (item != nil) {
-        [self.reminderItems addObject:item];
-        [self sortReminders];
+        [self.reminderItems insertObject:item atIndex:row];
         return YES;
     }
     return NO;
 }
 
-- (BOOL)removeReminderAtIndexPath:(NSIndexPath *)path
+- (void)removeReminderAtIndexPath:(NSIndexPath *)path
 {
-    @try {
-        [self.reminderItems removeObjectAtIndex:path.row];
-        return YES;
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Exception logged: %@", exception);
-        return NO;
-    }
+    [self.reminderItems removeObjectAtIndex:path.row];
 }
 
-- (BOOL)didArchiveReminderAtIndexPath:(NSIndexPath *)path
+- (PTRReminderItem *)getReminderItemByIndexPath:(NSIndexPath *)path
 {
-    PTRReminderItem *item = [self.reminderItems objectAtIndex:path.row];
-    
-    if (item.recurrencePeriod == PeriodNone) {
-        if ([self removeReminderAtIndexPath:path]) {
-            [self.archivedItems addObject:item];
-            return YES;
-        }
-    }
+    return [self.reminderItems objectAtIndex:path.row];
+}
 
-    [item findNextRecurrentDueDate];
-    [self sortReminders];
-    return NO;
+- (int)getInsertionRowOfReminderItem:(PTRReminderItem *)item
+{
+    int i = [self.reminderItems indexOfObject:item
+                               inSortedRange:NSMakeRange(0, self.reminderItems.count)
+                                     options:NSBinarySearchingInsertionIndex
+                             usingComparator:^NSComparisonResult(PTRReminderItem *obj1, PTRReminderItem *obj2) {
+                                 return [obj1 compare:obj2];
+                             }];
+    NSLog(@"func i: %d", i);
+    return i;
+}
+
+- (void)archiveReminderItem:(PTRReminderItem *)item
+{
+    [self.archivedItems addObject:item];
 }
 
 @end

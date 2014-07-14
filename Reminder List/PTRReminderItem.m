@@ -14,7 +14,7 @@
 {
     // NSDate > self.recurrentDueDate
     BOOL i = [[NSDate date] compare:self.recurrenceDueDate] == NSOrderedDescending;
-    NSLog(@"Date: %d", i);
+    
     return i;
 }
 
@@ -88,6 +88,11 @@
     } else {
         self.dueDate = [NSDate dateWithTimeInterval:time sinceDate:self.dueDate];
     }
+}
+
+- (NSComparisonResult)compare:(PTRReminderItem *)item
+{
+    return [self.dueDate compare:item.dueDate];
 }
 
 @end

@@ -80,10 +80,16 @@
 {
     PTRAddDateViewController *source = [segue sourceViewController];
     PTRReminderItem *item = source.reminderItem;
-    if ([self.list addReminder:item]) {
-        // try [tableView insertRowsAtIndexPath:withAnimation:] next time
-        [self.tableView reloadData];
-    }
+    
+    int row = [self.list getInsertionRowOfReminderItem:item];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
+    
+    [self insertReminderCell:item atIndexPath:path];
+    
+    //if ([self.list addReminder:item atRow:row]) {
+        // try [tableView insertRowsAtIndexPath:withRowAnimation:] next time
+      //  [self.tableView reloadData];
+    //}
 }
 
 - (void) updateDueTime
@@ -178,30 +184,53 @@
 
 #pragma mark reminder model stuff
 
-- (IBAction)deleteButtonSelected:(id)sender
-{
-    if ([self.list removeReminderAtIndexPath:self.selectedPath]) {
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedPath]
-                              withRowAnimation:UITableViewRowAnimationTop];
-    }
-    self.selectedPath = nil;
-}
-
-- (IBAction)doneButtonSelected:(id)sender
+- (NSIndexPath *)cellIndexPathByIdentifyingSender:(id)sender
 {
     UIView *view = sender;
     while (view != nil && ![view isKindOfClass:[PTRReminderTableViewCell class]]) {
         view = [view superview];
     }
     PTRReminderTableViewCell *cell = (PTRReminderTableViewCell *)view;
-    NSIndexPath *path = [self.tableView indexPathForCell:cell];
-    
-    if ([self.list didArchiveReminderAtIndexPath:path]) {
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
+    return [self.tableView indexPathForCell:cell];
+}
+
+- (void)deleteCellAtIndexPath:(NSIndexPath *)path
+{
+    [self.list removeReminderAtIndexPath:path];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                          withRowAnimation:UITableViewRowAnimationTop];
+}
+
+- (void)insertReminderCell:(PTRReminderItem *)item atIndexPath:(NSIndexPath *)path
+{
+    if ([self.list addReminder:item atRow:path.row]) {
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path]
                               withRowAnimation:UITableViewRowAnimationRight];
+    }
+}
+
+- (IBAction)deleteButtonSelected:(id)sender
+{
+    [self deleteCellAtIndexPath:self.selectedPath];
+    self.selectedPath = nil;
+}
+
+- (IBAction)doneButtonSelected:(id)sender
+{
+    NSIndexPath *path = [self cellIndexPathByIdentifyingSender:sender];
+    PTRReminderItem *item = [self.list getReminderItemByIndexPath:path];
+    
+    if([[self.list.reminderItems objectAtIndex:path.row] recurrencePeriod] == PeriodNone) {
+        [self.list archiveReminderItem:item];
+        [self deleteCellAtIndexPath:path];
     } else {
-        // perform animations for shifting reminder below
-        [self.tableView reloadData];
+        // Object must be deleted first. Else binary searching will find it, and produce error.
+        [self deleteCellAtIndexPath:path];
+        
+        [item findNextRecurrentDueDate];
+        int row = [self.list getInsertionRowOfReminderItem:item];
+        NSIndexPath *newPath = [NSIndexPath indexPathForRow:row inSection:0];
+        [self insertReminderCell:item atIndexPath:newPath];
     }
 }
 

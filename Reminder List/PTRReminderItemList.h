@@ -15,8 +15,10 @@
 @property NSMutableArray *archivedItems;
 
 - (void)sortReminders;
-- (BOOL)addReminder:(PTRReminderItem *)item;
-- (BOOL)removeReminderAtIndexPath:(NSIndexPath *)path;
-- (BOOL)didArchiveReminderAtIndexPath:(NSIndexPath *)path;
+- (BOOL)addReminder:(PTRReminderItem *)item atRow:(int)row;
+- (void)removeReminderAtIndexPath:(NSIndexPath *)path;
+- (void)archiveReminderItem:(PTRReminderItem *)item;
+- (PTRReminderItem *)getReminderItemByIndexPath:(NSIndexPath *)path;
+- (int)getInsertionRowOfReminderItem:(PTRReminderItem *)item;
 
 @end

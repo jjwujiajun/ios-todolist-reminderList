@@ -29,5 +29,6 @@ typedef enum {
 
 - (void)findNextRecurrentDueDate;
 - (void)postponeDueDateByTimeInterval:(NSTimeInterval)time;
+- (NSComparisonResult)compare:(PTRReminderItem *)item;
 
 @end
