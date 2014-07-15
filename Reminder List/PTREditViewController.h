@@ -18,6 +18,7 @@
 @property NSDate *selectedDate;
 @property PTRReminderItem *reminderItem;
 @property UIPickerView *picker;
+@property BOOL dateDidChange;
 
 
 @end

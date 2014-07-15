@@ -32,14 +32,9 @@
     [self initRecurrencePicker];
 }
 
-- (void)updateDateField:(id)sender
-{
-    UIDatePicker *picker = (UIDatePicker*)self.dateField.inputView;
-    self.dateField.text = [PTRDateFormatter formatDueDateFromDate:picker.date];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
+    self.dateDidChange = NO;
     [super viewDidAppear:animated];
     [self.textField becomeFirstResponder];
     self.textField.text = self.reminderItem.itemName;
@@ -55,7 +50,9 @@
     
     self.reminderItem.itemName = self.textField.text;
     UIDatePicker *picker = (UIDatePicker*)self.dateField.inputView;
-    self.reminderItem.dueDate = picker.date;
+    if (self.dateDidChange) {
+        self.reminderItem.dueDate = picker.date;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -80,6 +77,13 @@
     [datePicker addTarget:self action:@selector(updateDateField:)
          forControlEvents:UIControlEventValueChanged];
     [self.dateField setInputView:datePicker];
+}
+
+- (void)updateDateField:(id)sender
+{
+    UIDatePicker *picker = (UIDatePicker*)self.dateField.inputView;
+    self.dateField.text = [PTRDateFormatter formatDueDateFromDate:picker.date];
+    self.dateDidChange = YES;
 }
 
 #pragma mark recurrence selection

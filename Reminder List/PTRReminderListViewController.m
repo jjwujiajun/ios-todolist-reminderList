@@ -202,7 +202,7 @@
     [self.tableView beginUpdates];
     [self.list removeReminderAtIndexPath:path];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                          withRowAnimation:UITableViewRowAnimationFade];
+                          withRowAnimation:UITableViewRowAnimationRight];
     self.selectedPath = nil;
     [self.tableView endUpdates];
 }
