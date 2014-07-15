@@ -17,7 +17,6 @@
     
     self.list = [[PTRReminderItemList alloc] init];
     self.selectedPath = nil;
-    
     [self loadInitialData];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -30,7 +29,16 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     if (self.originalDate != self.editController.reminderItem.dueDate) {
-        [self.list sortReminders];
+        //[self.list sortReminders];
+        [self.tableView beginUpdates];
+        
+        [self deleteCellAtIndexPath:self.selectedPath];
+        int row = [self.list getInsertionRowOfReminderItem:self.editController.reminderItem];
+        NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
+        [self insertReminderCell:self.editController.reminderItem atIndexPath:path];
+        self.selectedPath = nil;
+        
+        [self.tableView endUpdates];
     }
     
     [NSTimer scheduledTimerWithTimeInterval: 5
@@ -85,11 +93,6 @@
     NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
     
     [self insertReminderCell:item atIndexPath:path];
-    
-    //if ([self.list addReminder:item atRow:row]) {
-        // try [tableView insertRowsAtIndexPath:withRowAnimation:] next time
-      //  [self.tableView reloadData];
-    //}
 }
 
 - (void) updateDueTime
@@ -196,18 +199,26 @@
 
 - (void)deleteCellAtIndexPath:(NSIndexPath *)path
 {
+    [self.tableView beginUpdates];
     [self.list removeReminderAtIndexPath:path];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                          withRowAnimation:UITableViewRowAnimationTop];
+                          withRowAnimation:UITableViewRowAnimationFade];
+    self.selectedPath = nil;
+    [self.tableView endUpdates];
 }
 
 - (void)insertReminderCell:(PTRReminderItem *)item atIndexPath:(NSIndexPath *)path
 {
     if ([self.list addReminder:item atRow:path.row]) {
+        [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                              withRowAnimation:UITableViewRowAnimationRight];
+                              withRowAnimation:UITableViewRowAnimationBottom];
+        self.selectedPath = nil;
+        [self.tableView endUpdates];
     }
 }
+
+#pragma mark Buttons
 
 - (IBAction)deleteButtonSelected:(id)sender
 {
@@ -232,6 +243,19 @@
         NSIndexPath *newPath = [NSIndexPath indexPathForRow:row inSection:0];
         [self insertReminderCell:item atIndexPath:newPath];
     }
+}
+
+- (IBAction)postponeButtonSelected:(id)sender
+{
+    NSTimeInterval time = 60 * 5;
+    PTRReminderItem *item = [self.list getReminderItemByIndexPath:self.selectedPath];
+    
+    [self deleteCellAtIndexPath:self.selectedPath];
+    [item postponeDueDateByTimeInterval:time];
+    int row = [self.list getInsertionRowOfReminderItem:item];
+    
+    NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
+    [self insertReminderCell:item atIndexPath:path];
 }
 
 - (IBAction)editButtonSelected:(id)sender

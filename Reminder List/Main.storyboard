@@ -74,6 +74,16 @@
                                                         <action selector="deleteButtonSelected:" destination="v2f-TD-VBh" eventType="touchUpInside" id="ma1-9R-VeS"/>
                                                     </connections>
                                                 </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sNZ-UO-YL5">
+                                                    <rect key="frame" x="40" y="4" width="76" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="Postpone">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="postponeButtonSelected:" destination="v2f-TD-VBh" eventType="touchUpInside" id="Ja6-7Q-CqO"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </view>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mrv-FN-maw">
@@ -121,7 +131,7 @@
         <!--Edit View Controller-->
         <scene sceneID="6d3-xd-7Do">
             <objects>
-                <viewController id="t0t-Lx-gSJ" customClass="PTREditViewController" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="t0t-Lx-gSJ" customClass="PTREditViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aZh-CX-DIY"/>
                         <viewControllerLayoutGuide type="bottom" id="Wo3-Gp-OTV"/>
@@ -142,12 +152,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Not repeated" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="esY-JY-cRu">
+                                <rect key="frame" x="0.0" y="186" width="320" height="42"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.92474312798208758" green="0.94079408385597496" blue="0.96983271059782605" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="d6h-mh-iaT"/>
                     <connections>
                         <outlet property="dateField" destination="D5e-NR-bLY" id="QR3-Ny-pqR"/>
+                        <outlet property="recurrenceLabel" destination="esY-JY-cRu" id="7tc-tQ-L0p"/>
                         <outlet property="textField" destination="qZH-el-M7G" id="lXN-lL-yvN"/>
                     </connections>
                 </viewController>

@@ -25,5 +25,6 @@
 - (IBAction)deleteButtonSelected:(id)sender;
 - (IBAction)editButtonSelected:(id)sender;
 - (IBAction)doneButtonSelected:(id)sender;
+- (IBAction)postponeButtonSelected:(id)sender;
 
 @end
