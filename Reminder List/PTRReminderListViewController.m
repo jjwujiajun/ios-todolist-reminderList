@@ -51,8 +51,8 @@
     item3.itemName = @"Read a book";
     
     item1.dueDate = [NSDate dateWithTimeIntervalSinceNow: -500000];
-    item2.dueDate = [NSDate dateWithTimeIntervalSinceNow:6000];
-    item3.dueDate = [NSDate dateWithTimeIntervalSinceNow:300000];
+    item2.dueDate = [NSDate dateWithTimeIntervalSinceNow: 5];
+    item3.dueDate = [NSDate dateWithTimeIntervalSinceNow: 300000];
     
     item1.recurrencePeriod = PeriodDay;
     item1.recurrenceAmount = 1;
@@ -156,7 +156,7 @@
         self.selectedPath = indexPath;
         [selectedCell showControlBar];
     } else {
-        if (self.selectedPath == indexPath) {
+        if (self.selectedPath.row == indexPath.row) {
             self.selectedPath = nil;
             [selectedCell hideControlBar];
         } else {
