@@ -48,7 +48,8 @@
     self.selectedDate = self.defaultDate;
     
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
-    datePicker.minuteInterval = 5;
+    [datePicker setMinuteInterval:5];
+    [datePicker setMinimumDate:[NSDate date]];
     [datePicker addTarget:self action:@selector(updateDateField:) forControlEvents:UIControlEventValueChanged];
     [self.dateField setInputView:datePicker];
     

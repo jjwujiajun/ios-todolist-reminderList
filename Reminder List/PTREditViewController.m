@@ -72,7 +72,8 @@
 {
     // This is repeated from AddDateVC. Consider creating PTRDateField class
     UIDatePicker *datePicker = [[UIDatePicker alloc]init];
-    datePicker.minuteInterval = 5;
+    [datePicker setMinuteInterval:5];
+    [datePicker setMinimumDate:[NSDate date]];
     [datePicker setDate:self.reminderItem.dueDate];
     [datePicker addTarget:self action:@selector(updateDateField:)
          forControlEvents:UIControlEventValueChanged];
