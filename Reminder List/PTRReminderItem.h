@@ -24,11 +24,10 @@ typedef enum {
 @property NSDate *recurrenceDueDate;
 @property BOOL isCompleted;
 @property BOOL isExtended;
-@property RecurrencePeriod recurrencePeriod;
 @property int recurrenceAmount;
+@property RecurrencePeriod recurrencePeriod;
 
 - (void)findNextRecurrentDueDate;
 - (void)postponeDueDateByTimeInterval:(NSTimeInterval)time;
-- (NSComparisonResult)compare:(PTRReminderItem *)item;
 
 @end

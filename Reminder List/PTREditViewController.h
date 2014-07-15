@@ -15,9 +15,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *textField;
 @property (strong, nonatomic) IBOutlet UITextField *dateField;
 @property (strong, nonatomic) IBOutlet UILabel *recurrenceLabel;
-@property NSDate *selectedDate;
 @property PTRReminderItem *reminderItem;
 @property UIPickerView *picker;
+@property NSDate *selectedDate;
 @property BOOL dateDidChange;
 
 

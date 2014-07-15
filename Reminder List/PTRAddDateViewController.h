@@ -12,7 +12,11 @@
 
 @interface PTRAddDateViewController : UIViewController
 
+@property (strong, nonatomic) IBOutlet UITextField *dateField;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 @property PTRReminderItem *reminderItem;
+@property NSTimeInterval minimumTime;
+@property NSDate *defaultDate;
 @property NSDate *selectedDate;
 
 @end

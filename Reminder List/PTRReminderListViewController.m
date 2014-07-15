@@ -28,7 +28,9 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    if (self.originalDate != self.editController.reminderItem.dueDate) {
+    [super viewDidAppear:animated];
+    
+    if (self.editController.dateDidChange) {
         //[self.list sortReminders];
         [self.tableView beginUpdates];
         
@@ -39,13 +41,25 @@
         self.selectedPath = nil;
         
         [self.tableView endUpdates];
+    } else if (self.selectedPath != nil) {
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:self.selectedPath] withRowAnimation:NO];
     }
     
-    [NSTimer scheduledTimerWithTimeInterval: 5
+    self.timer = [NSTimer scheduledTimerWithTimeInterval: 5
                                      target:self
                                    selector:@selector(updateDueTime)
                                    userInfo:nil
                                     repeats:YES];
+    NSLog(@"%@", [self.timer description]);
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    if (self.timer) {
+        [self.timer invalidate];
+    }
 }
 
 - (void)loadInitialData
@@ -71,29 +85,6 @@
     [self.list.reminderItems addObject:item3];
 }
 
-#pragma mark segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqual: @"editSegue"] ) {
-        PTRReminderItem *reminderItem = [self.list.reminderItems objectAtIndex:self.selectedPath.row];
-        self.editController = segue.destinationViewController;
-        self.editController.reminderItem = reminderItem;
-        
-        self.originalDate = [NSDate dateWithTimeInterval:0 sinceDate:self.editController.reminderItem.dueDate];
-    }
-    
-}
-
-- (IBAction)unwindToList:(UIStoryboardSegue *)segue
-{
-    PTRAddDateViewController *source = [segue sourceViewController];
-    PTRReminderItem *item = source.reminderItem;
-    
-    int row = [self.list getInsertionRowOfReminderItem:item];
-    NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
-    
-    [self insertReminderCell:item atIndexPath:path];
-}
 
 - (void) updateDueTime
 {
@@ -115,6 +106,114 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+#pragma mark segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqual: @"editSegue"] ) {
+        PTRReminderItem *reminderItem = [self.list.reminderItems objectAtIndex:self.selectedPath.row];
+        self.editController = segue.destinationViewController;
+        self.editController.reminderItem = reminderItem;
+        
+        self.originalDate = [NSDate dateWithTimeInterval:0 sinceDate:self.editController.reminderItem.dueDate];
+    } else {
+        int row = self.selectedPath.row;
+        self.selectedPath = nil;
+        NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:NO];
+    }
+    
+}
+
+- (IBAction)unwindToList:(UIStoryboardSegue *)segue
+{
+    PTRAddDateViewController *source = [segue sourceViewController];
+    PTRReminderItem *item = source.reminderItem;
+    
+    int row = [self.list getInsertionRowOfReminderItem:item];
+    NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
+    
+    [self insertReminderCell:item atIndexPath:path];
+}
+
+#pragma mark Buttons
+
+- (IBAction)doneButtonSelected:(id)sender
+{
+    NSIndexPath *path = [self cellIndexPathByIdentifyingSender:sender];
+    PTRReminderItem *item = [self.list getReminderItemByIndexPath:path];
+    
+    if([[self.list.reminderItems objectAtIndex:path.row] recurrencePeriod] == PeriodNone) {
+        [self.list archiveReminderItem:item];
+        [self deleteCellAtIndexPath:path];
+    } else {
+        // Object must be deleted first. Else binary searching will find it, and produce error.
+        [self deleteCellAtIndexPath:path];
+        
+        [item findNextRecurrentDueDate];
+        int row = [self.list getInsertionRowOfReminderItem:item];
+        NSIndexPath *newPath = [NSIndexPath indexPathForRow:row inSection:0];
+        [self insertReminderCell:item atIndexPath:newPath];
+    }
+}
+
+- (IBAction)postponeButtonSelected:(id)sender
+{
+    NSTimeInterval time = 60 * 5;
+    PTRReminderItem *item = [self.list getReminderItemByIndexPath:self.selectedPath];
+    
+    [self deleteCellAtIndexPath:self.selectedPath];
+    [item postponeDueDateByTimeInterval:time];
+    int row = [self.list getInsertionRowOfReminderItem:item];
+    
+    NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
+    [self insertReminderCell:item atIndexPath:path];
+}
+
+- (IBAction)editButtonSelected:(id)sender
+{
+    [self performSegueWithIdentifier:@"editSegue" sender:sender];
+}
+
+- (IBAction)deleteButtonSelected:(id)sender
+{
+    [self deleteCellAtIndexPath:self.selectedPath];
+    self.selectedPath = nil;
+}
+
+#pragma mark model manipulation
+
+- (NSIndexPath *)cellIndexPathByIdentifyingSender:(id)sender
+{
+    UIView *view = sender;
+    while (view != nil && ![view isKindOfClass:[PTRReminderTableViewCell class]]) {
+        view = [view superview];
+    }
+    PTRReminderTableViewCell *cell = (PTRReminderTableViewCell *)view;
+    return [self.tableView indexPathForCell:cell];
+}
+
+- (void)deleteCellAtIndexPath:(NSIndexPath *)path
+{
+    [self.tableView beginUpdates];
+    [self.list removeReminderAtIndexPath:path];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                          withRowAnimation:UITableViewRowAnimationRight];
+    self.selectedPath = nil;
+    [self.tableView endUpdates];
+}
+
+- (void)insertReminderCell:(PTRReminderItem *)item atIndexPath:(NSIndexPath *)path
+{
+    if ([self.list addReminder:item atRow:path.row]) {
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path]
+                              withRowAnimation:UITableViewRowAnimationBottom];
+        self.selectedPath = nil;
+        [self.tableView endUpdates];
+    }
+}
+
 #pragma mark - Table view delegate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -124,7 +223,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     return [self.list.reminderItems count];
 }
 
@@ -185,84 +283,6 @@
     }
 }
 
-#pragma mark reminder model stuff
-
-- (NSIndexPath *)cellIndexPathByIdentifyingSender:(id)sender
-{
-    UIView *view = sender;
-    while (view != nil && ![view isKindOfClass:[PTRReminderTableViewCell class]]) {
-        view = [view superview];
-    }
-    PTRReminderTableViewCell *cell = (PTRReminderTableViewCell *)view;
-    return [self.tableView indexPathForCell:cell];
-}
-
-- (void)deleteCellAtIndexPath:(NSIndexPath *)path
-{
-    [self.tableView beginUpdates];
-    [self.list removeReminderAtIndexPath:path];
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                          withRowAnimation:UITableViewRowAnimationRight];
-    self.selectedPath = nil;
-    [self.tableView endUpdates];
-}
-
-- (void)insertReminderCell:(PTRReminderItem *)item atIndexPath:(NSIndexPath *)path
-{
-    if ([self.list addReminder:item atRow:path.row]) {
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path]
-                              withRowAnimation:UITableViewRowAnimationBottom];
-        self.selectedPath = nil;
-        [self.tableView endUpdates];
-    }
-}
-
-#pragma mark Buttons
-
-- (IBAction)deleteButtonSelected:(id)sender
-{
-    [self deleteCellAtIndexPath:self.selectedPath];
-    self.selectedPath = nil;
-}
-
-- (IBAction)doneButtonSelected:(id)sender
-{
-    NSIndexPath *path = [self cellIndexPathByIdentifyingSender:sender];
-    PTRReminderItem *item = [self.list getReminderItemByIndexPath:path];
-    
-    if([[self.list.reminderItems objectAtIndex:path.row] recurrencePeriod] == PeriodNone) {
-        [self.list archiveReminderItem:item];
-        [self deleteCellAtIndexPath:path];
-    } else {
-        // Object must be deleted first. Else binary searching will find it, and produce error.
-        [self deleteCellAtIndexPath:path];
-        
-        [item findNextRecurrentDueDate];
-        int row = [self.list getInsertionRowOfReminderItem:item];
-        NSIndexPath *newPath = [NSIndexPath indexPathForRow:row inSection:0];
-        [self insertReminderCell:item atIndexPath:newPath];
-    }
-}
-
-- (IBAction)postponeButtonSelected:(id)sender
-{
-    NSTimeInterval time = 60 * 5;
-    PTRReminderItem *item = [self.list getReminderItemByIndexPath:self.selectedPath];
-    
-    [self deleteCellAtIndexPath:self.selectedPath];
-    [item postponeDueDateByTimeInterval:time];
-    int row = [self.list getInsertionRowOfReminderItem:item];
-    
-    NSIndexPath *path = [NSIndexPath indexPathForRow:row inSection:0];
-    [self insertReminderCell:item atIndexPath:path];
-}
-
-- (IBAction)editButtonSelected:(id)sender
-{
-    [self performSegueWithIdentifier:@"editSegue" sender:sender];
-}
-
 
 /*
 // Override to support conditional editing of the table view.
@@ -315,16 +335,4 @@
 
  */
 
-#pragma mark - Table view delegate
-/*
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    
-    PTRReminderItem *tappedItem = [self.reminderItems objectAtIndex:indexPath.row];
-    tappedItem.isCompleted = !tappedItem.isCompleted;
-    
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-}
-*/
 @end

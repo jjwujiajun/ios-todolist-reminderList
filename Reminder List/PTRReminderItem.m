@@ -90,9 +90,4 @@
     }
 }
 
-- (NSComparisonResult)compare:(PTRReminderItem *)item
-{
-    return [self.dueDate compare:item.dueDate];
-}
-
 @end

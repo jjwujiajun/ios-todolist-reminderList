@@ -16,15 +16,16 @@
 @interface PTRReminderListViewController : UITableViewController
 
 @property PTRReminderItemList *list;
+@property PTREditViewController *editController;
 @property NSIndexPath *selectedPath;
 @property NSIndexPath *previousPath;
-@property PTREditViewController *editController;
 @property NSDate *originalDate;
+@property NSTimer *timer;
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue;
-- (IBAction)deleteButtonSelected:(id)sender;
-- (IBAction)editButtonSelected:(id)sender;
 - (IBAction)doneButtonSelected:(id)sender;
 - (IBAction)postponeButtonSelected:(id)sender;
+- (IBAction)editButtonSelected:(id)sender;
+- (IBAction)deleteButtonSelected:(id)sender;
 
 @end

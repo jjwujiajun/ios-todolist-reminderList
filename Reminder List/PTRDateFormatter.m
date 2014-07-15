@@ -62,4 +62,9 @@
     return dueDateText;
 }
 
++ (NSString *)formatRelativeTimeFromDate:(NSDate *)dueDate
+{
+    return nil;
+}
+
 @end

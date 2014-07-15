@@ -61,12 +61,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-}
-
 #pragma mark date picker
 - (void)initDatePicker
 {
@@ -87,30 +81,12 @@
     self.dateDidChange = YES;
 }
 
-#pragma mark recurrence selection
+#pragma mark recurrence label
 - (void)initRecurrenceLabelForResponding
 {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(recurrenceLabelSelected)];
     self.recurrenceLabel.userInteractionEnabled = YES;
     [self.recurrenceLabel addGestureRecognizer:tap];
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
-    //ensure cannot do 30 months
-    //change pluralising in method below
-    
-    self.reminderItem.recurrencePeriod = [self.picker selectedRowInComponent:1];
-    
-    if (self.reminderItem.recurrencePeriod == PeriodNone) {
-        self.reminderItem.recurrenceAmount = 0;
-        // rollback to 0?
-    } else {
-        self.reminderItem.recurrenceAmount = [self.picker selectedRowInComponent:0];
-    }
-    
-    [self refreshRecurrenceLabelDisplay];
-    
 }
 
 - (void)refreshRecurrenceLabelDisplay
@@ -163,7 +139,19 @@
     self.reminderItem.recurrenceDueDate = self.reminderItem.dueDate;
 }
 
-#pragma mark recurrence picker setup
+- (void)recurrenceLabelSelected
+{
+    if (self.textField.isFirstResponder) {
+        [self.textField resignFirstResponder];
+    }
+    if (self.dateField.isFirstResponder) {
+        [self.dateField resignFirstResponder];
+    }
+    [self.picker selectRow:self.reminderItem.recurrenceAmount inComponent:0 animated:YES];
+    [self.picker selectRow:self.reminderItem.recurrencePeriod inComponent:1 animated:YES];
+}
+
+#pragma mark recurrence picker
 
 - (void)initRecurrencePicker
 {
@@ -181,16 +169,21 @@
     [[[[UIApplication sharedApplication] delegate] window] addSubview:self.picker];
 }
 
-- (void)recurrenceLabelSelected
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    if (self.textField.isFirstResponder) {
-        [self.textField resignFirstResponder];
+    //ensure cannot do 30 months
+    //change pluralising in method below
+    
+    self.reminderItem.recurrencePeriod = [self.picker selectedRowInComponent:1];
+    
+    if (self.reminderItem.recurrencePeriod == PeriodNone) {
+        self.reminderItem.recurrenceAmount = 0;
+        // rollback to 0?
+    } else {
+        self.reminderItem.recurrenceAmount = [self.picker selectedRowInComponent:0];
     }
-    if (self.dateField.isFirstResponder) {
-        [self.dateField resignFirstResponder];
-    }
-    [self.picker selectRow:self.reminderItem.recurrenceAmount inComponent:0 animated:YES];
-    [self.picker selectRow:self.reminderItem.recurrencePeriod inComponent:1 animated:YES];
+    
+    [self refreshRecurrenceLabelDisplay];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView

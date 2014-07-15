@@ -11,5 +11,6 @@
 @interface PTRDateFormatter : NSObject
 
 + (NSString *)formatDueDateFromDate:(NSDate *)dueDate;
++ (NSString *)formatRelativeTimeFromDate:(NSDate *)dueDate;
 
 @end

@@ -14,11 +14,10 @@
 @property NSMutableArray *reminderItems;
 @property NSMutableArray *archivedItems;
 
-- (void)sortReminders;
 - (BOOL)addReminder:(PTRReminderItem *)item atRow:(int)row;
 - (void)removeReminderAtIndexPath:(NSIndexPath *)path;
 - (void)archiveReminderItem:(PTRReminderItem *)item;
-- (PTRReminderItem *)getReminderItemByIndexPath:(NSIndexPath *)path;
 - (int)getInsertionRowOfReminderItem:(PTRReminderItem *)item;
+- (PTRReminderItem *)getReminderItemByIndexPath:(NSIndexPath *)path;
 
 @end
